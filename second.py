@@ -2,12 +2,10 @@ import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as plt
 
-# 二重振り子の運動方程式（ラグランジュ方程式から導出されたもの）
 def double_pendulum(y, t, L1, L2, m1, m2, g):
-    theta1, z1, theta2, z2 = y  # zは角速度(omega)
+    theta1, z1, theta2, z2 = y  
     c, s = np.cos(theta1-theta2), np.sin(theta1-theta2)
 
-    # 運動方程式（行列で解くような複雑な式を整理したもの）
     den1 = m1 + m2 * s**2
     den2 = (L2/L1) * den1
 
@@ -19,27 +17,20 @@ def double_pendulum(y, t, L1, L2, m1, m2, g):
 
     return [d_theta1, d_z1, d_theta2, d_z2]
 
-# パラメータ設定
-L1, L2 = 1.0, 1.0  # 棒の長さ
-m1, m2 = 1.0, 1.0  # おもりの質量
+L1, L2 = 1.0, 1.0  
+m1, m2 = 1.0, 1.0  
 g = 9.81
-t = np.linspace(0, 20, 1000) # 20秒間
+t = np.linspace(0, 20, 1000) 
 
-# 初期状態：【ここを変えると結果が激変します！】
-# [theta1, omega1, theta2, omega2]
-# ほぼ真上（パイ）に近い位置からスタートさせてみます
 y0 = [np.pi - 0.1, 0, np.pi - 0.1, 0]
 
-# 計算実行
 sol = odeint(double_pendulum, y0, t, args=(L1, L2, m1, m2, g))
 
-# 座標変換（極座標 -> 直交座標）
 x1 = L1 * np.sin(sol[:, 0])
 y1 = -L1 * np.cos(sol[:, 0])
 x2 = x1 + L2 * np.sin(sol[:, 2])
 y2 = y1 - L2 * np.cos(sol[:, 2])
 
-# グラフ化（先端の軌跡を描く）
 plt.figure(figsize=(6, 6))
 plt.plot(x2, y2, lw=0.5, color='blue', label='Trajectory')
 plt.title('Double Pendulum Chaos')
