@@ -1,0 +1,1 @@
+plt.savefig('images/result.png')
