@@ -13,14 +13,11 @@ times = np.arange(0, t_max, dt)
 alpha_0 = 3.0 + 0.0j  
 
 def potential(x):
-    """調和振動子のポテンシャル V(x) = 1/2 * x^2"""
+    
     return 0.5 * x**2
 
 def coherent_probability_density(x, t, alpha_0):
-    """
-    時刻 t におけるコヒーレント状態の確率密度 |ψ(x,t)|^2 を計算する。
-    (単位系: ħ=1, m=1, ω=1)
-    """
+   
     alpha_t = alpha_0 * np.exp(-1j * t)
 
     x_center = np.sqrt(2) * np.real(alpha_t)
